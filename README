@@ -3,7 +3,7 @@ interface for jack and a template class wrapping the jack ring buffer.  There
 is also a swig interface generator for making scripting interfaces for the
 blockingaudioio class.
 
-by Alex Norman alex@x37v.info
+by Alex Norman http://www.x37v.info
 
 Works with Linux, Will Wolcott tested with OSX.  Everything works fine except
 it seems that there is a bug in the jack implementation that causes crashes
