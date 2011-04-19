@@ -1,0 +1,11 @@
+6/4/08
+	fixed a bug in the tests.. the user audio callback should return 0 on success
+12/9/07
+	added doxygen documentation
+12/8/07
+	wrapped the classes in a jackcpp namespace
+	updated the tests to reflect this
+	added a blockingaudioio class, tests, and a swig interface
+	includes ruby, lua and python swig bindings and simple test scripts
+12/6/07
+	One can now add in and out ports while the client is active

@@ -1,0 +1,47 @@
+A C++ class wrapping most of the jack client functionality, a "blocking"
+interface for jack and a template class wrapping the jack ring buffer.  There
+is also a swig interface generator for making scripting interfaces for the
+blockingaudioio class.
+
+by Alex Norman alex@x37v.info
+
+Works with Linux, Will Wolcott tested with OSX.  Everything works fine except
+it seems that there is a bug in the jack implementation that causes crashes
+when jack_client_open (called in the constructor) starts a jack server.  It
+seems that the OSX version doesn't pause the jack_client_open thread while
+starting the server, so calls to jack_connect cause crashes after the server is
+automatically started.  Basically, you should start a jack server before you
+start your jack clients if you are OSX.
+
+REQUIREMENTS
+	Jack and its development headers.
+	Swig to generate swig wrappers.
+
+DOCUMENTATION
+	There are doxygen automatically generated docs in doc/
+
+SWIG scripting interfaces.
+	see the example script files in the swig directory.
+
+BUILD instructions
+
+Edit config.mk to reflect your system setup.
+
+To build:
+	make
+
+To install:
+	sudo make install
+
+To make tests:
+	make test
+
+To make ruby swig interface:
+	make ruby
+
+To make lua swig interface:
+	make lua
+
+To make python swig interface:
+	make python
+

@@ -1,0 +1,22 @@
+/** @mainpage
+
+@section Overview
+
+JackCpp is a couple c++ classes which wrap the Jack audio io api and lock-free
+ring buffer.  It was written by <a href="http://x37v.info">Alex Norman</a>.
+The documentation includes some text taken directly from the JACK Audio
+Connection Kit <a href="http://jackaudio.org/files/docs/html/index.html">API
+reference</a> by Paul Davis (and others).
+
+@section Licence
+
+Copywrite Alex Norman, 
+<a href="http://www.gnu.org/licenses/gpl.html">GNU GPL licence Version 3.</a>
+
+@section Webpage
+
+JackCpp is available here: <a href="http://x37v.info/jack_cpp">JackCpp webpage</a>.
+There you will find the source code as well as some brief examples.
+
+
+*/

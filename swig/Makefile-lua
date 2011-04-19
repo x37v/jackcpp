@@ -1,0 +1,21 @@
+#makefile to use swig to make lua binding for blockingjack
+SRC = jackcpp_wrap.cxx
+OBJ = ${SRC:.cxx=.o}
+
+CC = g++
+
+LIBS = -llua5.1 -ljackcpp
+LDFLAGS = ${LIBS} -L../ -L/usr/include -L/usr/local/include -lrt -lpthread -ljack
+#LDFLAGS = ${LIBS} -L../ -L/usr/include -L/usr/local/include `pkg-config --libs jack`
+
+INCLUDES = -I.. -I/usr/local/include -I /usr/include/lua5.1/ -I/usr/include
+CFLAGS = ${INCLUDES} -g
+#CFLAGS = ${INCLUDES} `pkg-config --cflags jack` -g
+
+current:lua
+
+swig:
+	swig -c++ -lua jackcpp.i
+
+lua: swig 
+	${CC} -shared ${CFLAGS} -o jackaudio.so ${SRC} ${LDFLAGS} 
