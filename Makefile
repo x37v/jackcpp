@@ -6,6 +6,7 @@ DISTDIR = jackcpp.${VERSION}
 SUBDIRS = ${SRCDIR} include test doc
 INCLUDE_FILES = `ls include/*`
 LIBNAME = "libjackcpp.a"
+GITHUBNAME = 'jackcpp'
 
 SRC = ${SRCDIR}/jackaudioio.cpp \
 		${SRCDIR}/jackblockingaudioio.cpp
@@ -51,8 +52,16 @@ dist: clean doc
 	tar -czf ${DISTDIR}.tar.gz --exclude=".svn" ${DISTDIR}
 	rm -rf ${DISTDIR}
 
-#doc-post: doc
-#	scp -r doc/html/* alex@x37v.info:x37v.info/jack_cpp/doc
+doc-post: doc
+	mkdir tmp/ && cd tmp/ && \
+		git clone git@github.com:x37v/${GITHUBNAME}.git && \
+		cd ${GITHUBNAME} && git co gh-pages
+	cp -r doc/html/* tmp/${GITHUBNAME}
+	cd tmp/${GITHUBNAME} && git add . && \
+		git ci -a -m 'auto updated docs' && \
+		git push origin gh-pages
+	rm -rf tmp
+
 #
 #dist-post: dist doc-post
 #	scp ${DISTDIR}.tar.gz alex@x37v.info:x37v.info/jack_cpp/code
@@ -72,7 +81,7 @@ clean-swig:
 
 clean: clean-swig
 	rm -f ${SRCDIR}/*.o *.a *.gz 
-	rm -rf doc/html doc/latex
+	rm -rf doc/html doc/latex tmp
 	cd test && make clean
 
 all: ${LIBNAME} test
