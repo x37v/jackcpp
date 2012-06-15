@@ -1,3 +1,7 @@
 doc/html/
 doc/latex/
 libjackcpp.a
+test/testjack
+test/testjackblocking
+test/testjackmidi
+test/testjackringbuffer

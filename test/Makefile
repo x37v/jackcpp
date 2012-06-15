@@ -2,6 +2,7 @@ include config.mk
 
 SRC = \
 	testjack.cpp \
+	testjackmidi.cpp \
 	testjackblocking.cpp \
 	testjackringbuffer.cpp
 

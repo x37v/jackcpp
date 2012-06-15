@@ -10,6 +10,7 @@ GITHUBNAME = 'jackcpp'
 CFLAGS += "-fPIC"
 
 SRC = ${SRCDIR}/jackaudioio.cpp \
+		${SRCDIR}/jackmidiport.cpp \
 		${SRCDIR}/jackblockingaudioio.cpp
 
 OBJ = ${SRC:.cpp=.o}
