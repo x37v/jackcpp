@@ -7,6 +7,7 @@ SUBDIRS = ${SRCDIR} include test doc
 INCLUDE_FILES = `ls include/*`
 LIBNAME = "libjackcpp.a"
 GITHUBNAME = 'jackcpp'
+CFLAGS += "-fPIC"
 
 SRC = ${SRCDIR}/jackaudioio.cpp \
 		${SRCDIR}/jackblockingaudioio.cpp
