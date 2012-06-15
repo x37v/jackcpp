@@ -88,12 +88,13 @@ In that method you can get audio in from jack and write it out to jack.
 			virtual int audioCallback(jack_nframes_t nframes, 
 					audioBufVector inBufs,
 					audioBufVector outBufs) = 0;
+		public:
 			/**
 			  @brief Gives users a pointer to the client created and used by this class.
 			  \return a pointer to the jack client used by this class.
 			  */
 			jack_client_t * client();
-		public:
+
 			/**
 			  @brief The Constructor
 			  \param name string indicating the name of the jack client to create
