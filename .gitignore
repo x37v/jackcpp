@@ -1,3 +1,6 @@
+core
+.*.swp
+.*.swo
 doc/html/
 doc/latex/
 libjackcpp.a
