@@ -35,6 +35,17 @@ class TestJackMIDI : public JackCpp::AudioIO {
 
          //clear the output port
          mMidiOutput.clear(mMidiOutput.port_buffer(nframes));
+         void * in_buffer = mMidiInput.port_buffer(nframes);
+         if (jack_nframes_t events = mMidiInput.event_count(in_buffer)) {
+            for (uint32_t i = 0; i < events; i++) {
+               jack_midi_event_t evt;
+               if (mMidiInput.get(evt, in_buffer, i) && evt.size >= 3) {
+                  cout << evt.buffer[0] << " ";
+                  cout << evt.buffer[1] << " ";
+                  cout << evt.buffer[2] << " " << endl;
+               }
+            }
+         }
 
          //return 0 on success
          return 0;

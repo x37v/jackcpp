@@ -100,8 +100,7 @@ namespace JackCpp {
       public:
          virtual void init(AudioIO * audio_client, std::string name);
          jack_nframes_t event_count(void * port_buffer);
-         //returns null on failure
-         jack_midi_event_t * get(void * port_buffer, uint32_t index);
+         bool get(jack_midi_event_t& event, void * port_buffer, uint32_t index);
    };
 
    class MIDIOutPort : public MIDIPort {

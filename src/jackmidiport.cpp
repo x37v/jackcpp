@@ -61,11 +61,8 @@ jack_nframes_t MIDIInPort::event_count(void * port_buffer) {
    return jack_midi_get_event_count(port_buffer);
 }
 
-jack_midi_event_t * MIDIInPort::get(void * port_buffer, uint32_t index) {
-   jack_midi_event_t * event = NULL;
-   if (jack_midi_event_get(event, port_buffer, index) == 0)
-      return event;
-   return NULL;
+bool MIDIInPort::get(jack_midi_event_t& event, void * port_buffer, uint32_t index) {
+   return jack_midi_event_get(&event, port_buffer, index) == 0;
 }
 
 
