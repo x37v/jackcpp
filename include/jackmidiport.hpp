@@ -32,6 +32,58 @@ namespace JackCpp {
          std::string name() const;
          jack_port_t * jack_port() const;
          virtual void init(AudioIO * audio_client, std::string name) = 0;
+         void * port_buffer(jack_nframes_t frames);
+
+         //if you and this with a byte and you get anything non-zero
+         //it is a status message
+         static const uint8_t status_mask;
+
+         //if you and this with a status message that contains channel info,
+         //you'll get the channel
+         static const uint8_t channel_mask;
+
+         //status types
+         enum status_t {
+            SYSEX_BEGIN = 0xF0,
+            SYSEX_END = 0xF7,
+
+            CC = 0xB0,
+            NOTEON = 0x90,
+            NOTEOFF = 0x80,
+            AFTERTOUCH = 0xA0,
+            PITCHBEND = 0xE0,
+            PROGCHANGE = 0xC0,
+            CHANPRESSURE = 0xD0,
+
+            //midi = realtime,
+            CLOCK = 0xF8,
+            TICK = 0xF9,
+            START = 0xFA,
+            CONTINUE = 0xFB,
+            STOP = 0xFC,
+            ACTIVESENSE = 0xFE,
+            RESET = 0xFF,
+
+            TC_QUARTERFRAME = 0xF1,
+            SONGPOSITION = 0xF2,
+            SONGSELECT = 0xF3,
+            TUNEREQUEST = 0xF6,
+         };
+
+         enum rpn_ccs {
+            param_num_msb = 101,
+            param_num_lsb = 100,
+            param_value_1st = 6,
+            param_value_2nd = 38, //optional
+         };
+
+         enum nrpn_ccs {
+            param_num_msb = 99,
+            param_num_lsb = 98,
+            param_value_msb = 6,
+            param_value_lsb = 38, //optional
+         };
+
       protected:
          enum port_t {INPUT, OUTPUT};
          void init(AudioIO * audio_client, std::string name, port_t type);
@@ -43,16 +95,16 @@ namespace JackCpp {
    class MIDIInPort : public MIDIPort {
       public:
          virtual void init(AudioIO * audio_client, std::string name);
-         jack_nframes_t event_count();
-         jack_midi_event_t * get(uint32_t index);
+         jack_nframes_t event_count(void * port_buffer);
+         jack_midi_event_t * get(void * port_buffer, uint32_t index);
    };
 
    class MIDIOutPort : public MIDIPort {
       public:
          virtual void init(AudioIO * audio_client, std::string name);
          //must be called before each use in the audioCallback
-         void clear();
-         size_t write_space();
+         void clear(void * port_buffer);
+         size_t write_space(void * port_buffer);
    };
 }
 

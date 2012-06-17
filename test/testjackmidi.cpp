@@ -34,7 +34,7 @@ class TestJackMIDI : public JackCpp::AudioIO {
             audioBufVector outBufs){
 
          //clear the output port
-         mMidiOutput.clear();
+         mMidiOutput.clear(mMidiOutput.port_buffer(nframes));
 
          //return 0 on success
          return 0;
