@@ -71,17 +71,17 @@ namespace JackCpp {
          };
 
          enum rpn_ccs {
-            param_num_msb = 101,
-            param_num_lsb = 100,
-            param_value_1st = 6,
-            param_value_2nd = 38, //optional
+            rpn_param_num_msb = 101,
+            rpn_param_num_lsb = 100,
+            rpn_param_value_1st = 6,
+            rpn_param_value_2nd = 38, //optional
          };
 
          enum nrpn_ccs {
-            param_num_msb = 99,
-            param_num_lsb = 98,
-            param_value_msb = 6,
-            param_value_lsb = 38, //optional
+            nrpn_param_num_msb = 99,
+            nrpn_param_num_lsb = 98,
+            nrpn_param_value_msb = 6,
+            nrpn_param_value_lsb = 38, //optional
          };
 
       protected:
