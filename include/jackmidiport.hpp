@@ -38,6 +38,10 @@ namespace JackCpp {
          //it is a status message
          static const uint8_t status_mask;
 
+         //returns zero if it isn't a status byte
+         //otherwise, returns the byte with everything but status masked off
+         static uint8_t status(jack_midi_event_t * midi_event);
+
          //if you and this with a status message that contains channel info,
          //you'll get the channel
          static const uint8_t channel_mask;
@@ -96,6 +100,7 @@ namespace JackCpp {
       public:
          virtual void init(AudioIO * audio_client, std::string name);
          jack_nframes_t event_count(void * port_buffer);
+         //returns null on failure
          jack_midi_event_t * get(void * port_buffer, uint32_t index);
    };
 
