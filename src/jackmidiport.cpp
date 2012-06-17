@@ -45,10 +45,10 @@ void * MIDIPort::port_buffer(jack_nframes_t frames) {
    return jack_port_get_buffer(mPort, frames);
 }
 
-uint8_t MIDIPort::status(jack_midi_event_t * midi_event) {
-   if (!midi_event || midi_event->size)
+uint8_t MIDIPort::status(const jack_midi_event_t& midi_event) {
+   if (midi_event.size)
       return 0;
-   return midi_event->buffer[0] & status_mask;
+   return midi_event.buffer[0] & status_mask;
 }
 
 //******** MIDIInPort

@@ -40,7 +40,7 @@ namespace JackCpp {
 
          //returns zero if it isn't a status byte
          //otherwise, returns the byte with everything but status masked off
-         static uint8_t status(jack_midi_event_t * midi_event);
+         static uint8_t status(const jack_midi_event_t& midi_event);
 
          //if you and this with a status message that contains channel info,
          //you'll get the channel
