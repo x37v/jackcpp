@@ -32,17 +32,21 @@ class TestJackMIDI : public JackCpp::AudioIO {
       virtual int audioCallback(jack_nframes_t nframes, 
             audioBufVector inBufs,
             audioBufVector outBufs){
+
+         //clear the output port
+         mMidiOutput.clear();
+
          //return 0 on success
          return 0;
       }
       TestJackMIDI() :
          JackCpp::AudioIO("jackcpp-miditest", 0,0) {
-            mMidiOutput.init(this, "testoutput", JackCpp::MIDIPort::OUTPUT);
-            mMidiInput.init(this, "testinput", JackCpp::MIDIPort::INPUT);
+            mMidiOutput.init(this, "testoutput");
+            mMidiInput.init(this, "testinput");
          }
    private:
-      JackCpp::MIDIPort mMidiOutput;
-      JackCpp::MIDIPort mMidiInput;
+      JackCpp::MIDIOutPort mMidiOutput;
+      JackCpp::MIDIInPort mMidiInput;
 };
 
 int main(){

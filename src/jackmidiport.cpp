@@ -18,10 +18,14 @@
 
 #include "jackmidiport.hpp"
 
-JackCpp::MIDIPort::MIDIPort() : mPort(NULL) {
+using namespace JackCpp;
+
+MIDIPort::MIDIPort() : mPort(NULL) {
 }
 
-void JackCpp::MIDIPort::init(AudioIO * audio_client, std::string name, port_t type) {
+jack_port_t * MIDIPort::jack_port() const { return mPort; }
+
+void MIDIPort::init(AudioIO * audio_client, std::string name, port_t type) {
    mPortType = type;
    mPort = jack_port_register(audio_client->client(),
          name.c_str(),
@@ -30,7 +34,38 @@ void JackCpp::MIDIPort::init(AudioIO * audio_client, std::string name, port_t ty
          0);
 }
 
-std::string JackCpp::MIDIPort::name() const {
+std::string MIDIPort::name() const {
    return std::string(jack_port_name(mPort));
 }
 
+//******** MIDIInPort
+
+void MIDIInPort::init(AudioIO * audio_client, std::string name) {
+   MIDIPort::init(audio_client, name, MIDIPort::INPUT);
+}
+
+jack_nframes_t MIDIInPort::event_count() {
+   return jack_midi_get_event_count(jack_port());
+}
+
+jack_midi_event_t * MIDIInPort::get(uint32_t index) {
+   jack_midi_event_t * event = NULL;
+   if (jack_midi_event_get(event, jack_port(), index) == 0)
+      return event;
+   return NULL;
+}
+
+
+//******** MIDIOutPort
+
+void MIDIOutPort::init(AudioIO * audio_client, std::string name) {
+   MIDIPort::init(audio_client, name, MIDIPort::OUTPUT);
+}
+
+void MIDIOutPort::clear() {
+   jack_midi_clear_buffer(jack_port());
+}
+
+size_t MIDIOutPort::write_space() {
+   return jack_midi_max_event_size(jack_port());
+}

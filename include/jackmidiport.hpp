@@ -21,22 +21,38 @@
 
 #include "jackaudioio.hpp"
 #include <string>
-
-extern "C" {
 #include <jack/jack.h>
 #include <jack/types.h>
-}
+#include <jack/midiport.h>
 
 namespace JackCpp {
    class MIDIPort {
       public:
-         enum port_t {INPUT, OUTPUT};
          MIDIPort();
-         void init(AudioIO * audio_client, std::string name, port_t type);
          std::string name() const;
+         jack_port_t * jack_port() const;
+         virtual void init(AudioIO * audio_client, std::string name) = 0;
+      protected:
+         enum port_t {INPUT, OUTPUT};
+         void init(AudioIO * audio_client, std::string name, port_t type);
       private:
          port_t mPortType;
          jack_port_t * mPort;
+   };
+
+   class MIDIInPort : public MIDIPort {
+      public:
+         virtual void init(AudioIO * audio_client, std::string name);
+         jack_nframes_t event_count();
+         jack_midi_event_t * get(uint32_t index);
+   };
+
+   class MIDIOutPort : public MIDIPort {
+      public:
+         virtual void init(AudioIO * audio_client, std::string name);
+         //must be called before each use in the audioCallback
+         void clear();
+         size_t write_space();
    };
 }
 
