@@ -69,13 +69,15 @@ doc-post: doc
 #	scp ${DISTDIR}.tar.gz alex@x37v.info:x37v.info/jack_cpp/code
 
 install: ${LIBNAME}
-	cp ${LIBNAME} ${PREFIX}/lib/
-	cp include/* ${PREFIX}/include/
+	mkdir -p ${DESTDIR}${PREFIX}/lib/
+	mkdir -p ${DESTDIR}${PREFIX}/include/
+	cp ${LIBNAME} ${DESTDIR}${PREFIX}/lib/
+	cp include/* ${DESTDIR}${PREFIX}/include/
 
 uninstall:
-	rm -f ${PREFIX}/lib/${LIBNAME}
+	rm -f ${DESTDIR}${PREFIX}/lib/${LIBNAME}
 	for i in ${INCLUDE_FILES}; do \
-		rm -f ${PREFIX}/$$i; \
+		rm -f ${DESTDIR}${PREFIX}/$$i; \
 	done
 
 clean-swig:
