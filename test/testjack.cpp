@@ -19,6 +19,8 @@
 #include "jackaudioio.hpp"
 #include <iostream>
 #include <stdlib.h>
+#include <unistd.h>
+
 using std::cout;
 using std::endl;
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
