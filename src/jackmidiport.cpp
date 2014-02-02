@@ -51,6 +51,12 @@ uint8_t MIDIPort::status(const jack_midi_event_t& midi_event) {
    return midi_event.buffer[0] & 0xF0;
 }
 
+uint8_t MIDIPort::channel(const jack_midi_event_t& midi_event) {
+   if (midi_event.size < 1)
+      return 0;
+   return midi_event.buffer[0] & channel_mask;
+}
+
 //******** MIDIInPort
 
 void MIDIInPort::init(AudioIO * audio_client, std::string name) {

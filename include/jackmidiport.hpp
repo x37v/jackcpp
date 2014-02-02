@@ -45,6 +45,8 @@ namespace JackCpp {
          //if you and this with a status message that contains channel info,
          //you'll get the channel
          static const uint8_t channel_mask;
+         static uint8_t channel(const jack_midi_event_t& midi_event);
+
 
          //status types
          enum status_t {
