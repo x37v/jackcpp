@@ -113,6 +113,19 @@ In that method you can get audio in from jack and write it out to jack.
 #endif
 				throw(std::runtime_error);
 
+      //create the object but don't actually create the client yet
+			AudioIO();
+
+			void createClient(std::string name, 
+					unsigned int inPorts = 0, 
+					unsigned int outPorts = 2, 
+#ifdef __APPLE__
+					bool startServer = false)
+#else
+					bool startServer = true)
+#endif
+				throw(std::runtime_error);
+
 			///The Destructor
 			virtual ~AudioIO();
 

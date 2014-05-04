@@ -85,9 +85,23 @@ jack_client_t * JackCpp::AudioIO::client(){
 JackCpp::AudioIO::AudioIO(std::string name, unsigned int inPorts, unsigned int outPorts, bool startServer) 
 	throw(std::runtime_error) : mCmdBuffer(256,true)
 {
+  createClient(name, inPorts, outPorts, startServer);
+}
+
+JackCpp::AudioIO::AudioIO() : mCmdBuffer(256,true), mJackClient(NULL)
+{
+}
+
+void JackCpp::AudioIO::createClient(std::string name, unsigned int inPorts, unsigned int outPorts, bool startServer) 
+	throw(std::runtime_error) 
+{
+  if (mJackClient) {
+    //XXX close it
+  }
+  
 	jack_options_t jack_open_options = JackNullOption;
 
-	if(startServer == false)
+	if (startServer == false)
 		jack_open_options = JackNoStartServer;
 
 	mJackState = notActive;
@@ -139,7 +153,6 @@ JackCpp::AudioIO::AudioIO(std::string name, unsigned int inPorts, unsigned int o
 	if(0 != jack_set_process_callback (mJackClient, JackCpp::AudioIO::jackProcessCallback, this))
 		throw std::runtime_error("cannot register process callback");
 }
-
 
 JackCpp::AudioIO::~AudioIO(){
 	//make sure to deactiveate the client if we need to
