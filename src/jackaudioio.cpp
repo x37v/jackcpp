@@ -21,6 +21,7 @@
 #include <errno.h>
 #include <sstream>
 #include <algorithm>
+#include <unistd.h>
 
 template <typename T>
 std::string ToString(T aValue){
