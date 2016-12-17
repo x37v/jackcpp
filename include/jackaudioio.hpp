@@ -205,6 +205,23 @@ In that method you can get audio in from jack and write it out to jack.
 				throw(std::runtime_error);
 
 			/**
+			   @brief Remove a jack input port from our client.
+			   This method cannot be called while the client is running.
+			  \param name string the name of the port to remove
+			  \return the number of total input ports
+			*/
+			virtual unsigned int removeInPort(std::string name)
+				throw(std::runtime_error);
+			/**
+			   @brief Remove a jack output port from our client.
+			   This method cannot be called while the client is running.
+			  \param name string the name of the port to remove
+			  \return the number of total output ports
+			*/
+			virtual unsigned int removeOutPort(std::string name)
+				throw(std::runtime_error);
+
+			/**
 			   @brief Connect our output to a jack client's source port.
 			  \param index the index of our output port to connect from.
 			  \param sourcePortName the client:port name to connect to

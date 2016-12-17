@@ -277,6 +277,66 @@ unsigned int JackCpp::AudioIO::addOutPort(std::string name)
 	return mOutputPorts.size() - 1;
 }
 
+unsigned int JackCpp::AudioIO::removeInPort(std::string name)
+	throw(std::runtime_error)
+{
+	// if the client is active this presents all sorts of issues
+	if (mJackState == active)
+		throw std::runtime_error("removing ports while the client is active is not supported");
+
+	std::vector<std::string>::iterator name_iter;
+	name_iter = std::find(mPortNames.begin(), mPortNames.end(), name);
+	if (name_iter == mPortNames.end())
+		throw std::runtime_error("cannot remove non-existent port: " + name);
+
+	std::vector<jack_port_t *>::iterator port_iter = mInputPorts.begin();
+	for (; port_iter != mInputPorts.end(); ++port_iter) {
+		if (std::string(jack_port_short_name(*port_iter)) == name)
+			break;
+	}
+	if (port_iter == mInputPorts.end())
+		throw std::runtime_error("could not find port in port list!");
+
+	if (jack_port_unregister(mJackClient, *port_iter))
+		throw std::runtime_error("could not unregister port!");
+
+	mInputPorts.erase(port_iter);
+	mPortNames.erase(name_iter);
+	mJackInBuf.pop_back();
+
+	return mInputPorts.size();
+}
+
+unsigned int JackCpp::AudioIO::removeOutPort(std::string name)
+	throw(std::runtime_error)
+{
+	// if the client is active this presents all sorts of issues
+	if (mJackState == active)
+		throw std::runtime_error("removing ports while the client is active is not supported");
+
+	std::vector<std::string>::iterator name_iter;
+	name_iter = std::find(mPortNames.begin(), mPortNames.end(), name);
+	if (name_iter == mPortNames.end())
+		throw std::runtime_error("cannot remove non-existent port: " + name);
+
+	std::vector<jack_port_t *>::iterator port_iter = mOutputPorts.begin();
+	for (; port_iter != mOutputPorts.end(); ++port_iter) {
+		if (std::string(jack_port_short_name(*port_iter)) == name)
+			break;
+	}
+	if (port_iter == mOutputPorts.end())
+		throw std::runtime_error("could not find port in port list!");
+
+	if (jack_port_unregister(mJackClient, *port_iter))
+		throw std::runtime_error("could not unregister port!");
+
+	mOutputPorts.erase(port_iter);
+	mPortNames.erase(name_iter);
+	mJackOutBuf.pop_back();
+
+	return mOutputPorts.size();
+}
+
 void JackCpp::AudioIO::connectTo(unsigned int index, std::string destPortName)
 	throw(std::range_error, std::runtime_error)
 {
